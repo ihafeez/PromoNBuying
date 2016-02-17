@@ -1,0 +1,363 @@
+<head>
+  <title>PromoNBuying</title>
+</head>
+
+<body>
+
+</body>
+
+<template name="ApplicationLayout">
+  {{> yield "navbar"}}
+  {{> yield "main"}}
+  
+</template>
+
+<template name="welcome">
+  <div class="container">
+    <div class="jumbotron">
+      <center>
+      <h1>Welcome to PromoNBuying!</h1>
+      <p>By Entering further to use this application,</p>
+      <p>we hope that you'll not create any product which</p>
+      <p>could be a cause of any type of distruction by any means. Or </p>
+      <p>you'll not create any product or give any comments which</p>
+      <p>can hurt others. Spread Love and have Love to make our lovely</p>
+      <p>world loveable. Many Thanks </p>
+      <a href="/products" class="btn btn-info">ENTER</a>
+    </center>
+    </div>
+  </div>
+</template> 
+
+<template name="help">
+  <div class="container">
+    <div class="jumbotron">
+      
+      <h1>Help to Use PromoNBuying!</h1>
+      <p>This application is designed for anyone to add product/services with promotional offerings. For create product you can click menu button named "Products" and then you'll need to login first, to add product. To login the application, you can create your account. After creating your account and login to the application, you'll see 
+      green colored button named "Add product" and by clicking this button, you can add new product with your promotional offering. </P><br>
+
+      <p>Once you will click any product it will bring you to the product detailed page and from there you can see the product detail and you can read customer's comments with their buying experience of that product. If you are logged in, then you can also add comments and for that you can use green colored button named "comments".</p><br>
+
+      <p>Admin has authority and rights to delete any product without any prior information if that product or service will have un ethical image or if there will be any such material which can hurt anyone in our lovely world.</p><br>
+
+      <p>If you have any comments or valuable feed back you are more than welcome and we'll appreciate for your valuable comments and will try to improve our application accordingly. You can go to github/promonbuying repository for our application. PromoNBuying is free application and will always be free for all :)</P><br>
+      <center><a href="/products" class="btn btn-info">ENTER</a></center>
+    
+    </div>
+  </div>
+</template> 
+
+<template name="product">
+  <div class="container">
+  <center>
+  <!--<a href="/products"><img class="single-img" src="{{prd_src1}}"/></a><br>-->
+  <!--<a href="#" class="js-show-product-zoom"><img class="single-img" src="{{prd_src1}}"/></a><br>-->
+  <!--<button class="btn btn-success js-show-product-zoom"><img class="single-img" src="{{prd_src1}}"/>
+  </button><br> -->
+  <img class="single-img" src="{{prd_src1}}" data-action="zoom"/><br>
+  </center>
+  <h3>{{prd_name}}<br>
+  {{prd_alt}}</h3>
+  <b>Quick Promo: </b>{{prd_promo_token}}<br>
+  <b>Promo Start Date: </b>{{prd_promo_startdate}}<br>
+  <b>Promo End Date: </b>{{prd_promo_enddate}}<br>
+  <b>Promo Description: </b>{{prd_promo_description}}<br>
+  <b>Product Name: </b>{{prd_name}}<br>
+  <b>Product Category: </b>{{prd_category}}<br>
+  <b>Company Name: </b>{{prd_company_name}}<br>
+  <b>Company Link: </b><a href="{{prd_company_link}}">{{prd_company_link}}</a><br>
+  <b>Reseller's List: </b>{{prd_Reseller_list}}<br>
+  <b>Product Short Description: </b>{{prd_short_desc}}<br>
+  <b>Product Specification: </b>{{prd_spec}}<br>
+  <b>Product New Launch: </b>{{prd_newlaunch}}<br>
+  <b>Product Launch Date: </b>{{prd_launchdate}}<br>
+  <b>Product Revision Date: </b>{{prd_revisiondate}}<br>
+  <b>Product Enhancements: </b>{{prd_enhancements}}<br><br><br><br>
+  <h3> Customer Comments</h3>
+  {{#if currentUser}}
+  <button class="btn btn-success js-show-cusotmer-experience">Comments
+  </button><br><br><br><br>
+  {{else}}
+  <a style="color:blue"><b>Please Login First to Enter Your Comments!</b></a>
+  {{/if}}
+
+  {{> commentList}}
+  <p>_____________________________________________________________________</p>
+  <!--
+  <b>Customer Name: </b>{{comments.customer_name}}<br>
+  <b>Customer Country: </b>{{comments.customer_country}}<br> 
+  -->
+
+</div>
+  </template>
+<!--
+<template name="navbar">
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+   {{> loginButtons align="right"}}
+  </div>
+</nav>
+</template>
+-->
+
+<!-- top level template for the nav bar -->
+<template name="navbar">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+
+      <a class="navbar-brand" href="/">
+        PromoNBuying!
+      </a>
+    </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <!--<li><a href="/" id="albums-tab">Home</a></li>-->
+        <li><a href="/Products" id="photos-tab">Products</a></li>
+        <li><a href="/help" id="photos-tab">Help</a></li>
+       <!-- <li>
+          <a href="#" class="js-add-comments">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+              Add Comments
+          </a> 
+        </li> -->
+      </ul>
+    <div class="nav navbar-nav navbar-right">
+    {{> loginButtons align="right"}}
+   
+  </div>
+  </div>
+    
+  </div>
+</nav>
+</template>
+
+
+
+<template name="product_add_form">
+
+<div class="modal fade" id="product_add_form">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">
+        </div>
+      </div>
+      <div class="modal-body">       
+        <form class="js-add-product">
+          <div class="form-group">
+            <label for="prd_src1">Product URL:</label>
+            <input type="text" class="form-control" id="prd_src1" placeholder="url" name="prd_src1"/>
+        </div>
+        <div class="form-group">
+         <label for="prd_alt">Product description:</label>
+          <textarea class="form-control" id="prd_alt" placeholder="Describe the product here" name="prd_alt"></textarea>
+        </div>
+        <div class="form-group">
+         <label for="prd_promo_token">Product Promotion Coupen:</label>
+          <textarea class="form-control" id="prd_promo_token" placeholder="Describe your short promotion coupen" name="prd_promo_token"></textarea>
+        </div>
+        <div class="form-group">
+         <label for="prd_name">Product Name:</label>
+          <textarea class="form-control" id="prd_name" placeholder="Enter Your Product Name" name="prd_name"></textarea>
+        </div>
+        <div class="form-group">
+         <label for="prd_company_name">Company/Organization Name:</label>
+          <textarea class="form-control" id="prd_company_name" placeholder="Enter Company/Organization Name" name="prd_company_name"></textarea>
+        </div>
+        <div class="form-group">
+         <label for="prd_company_link">Company/Organization Link:</label>
+          <textarea class="form-control" id="prd_company_link" placeholder="Enter Company/Organization Link" name="prd_company_link"></textarea>
+        </div>
+        <div class="form-group">
+         <label for="prd_category">Product Category:</label>
+          <textarea class="form-control" id="prd_category" placeholder="Enter Product Category" name="prd_category"></textarea>
+        </div>
+        <div class="form-group">
+         <label for="prd_Reseller_list">Product Reseller's List:</label>
+          <textarea class="form-control" id="prd_Reseller_list" placeholder="Enter Product Reseller's List" name="prd_Reseller_list"></textarea>
+        </div>
+        <div class="form-group">
+         <label for="prd_spec">Product Specification:</label>
+          <textarea class="form-control" id="prd_spec" placeholder="Enter Product Specification" name="prd_spec"></textarea>
+        </div>
+        <div class="form-group">
+         <label for="prd_launchdate">Product Launch Date:</label>
+          <textarea class="form-control" id="prd_launchdate" placeholder="Enter Product Launch Date" name="prd_launchdate"></textarea>
+        </div>
+        <div class="form-group">
+         <label for="prd_promo_startdate">Promotion Start Date:</label>
+          <textarea class="form-control" id="prd_promo_startdate" placeholder="Enter Promotion Start Date" name="prd_promo_startdate"></textarea>
+        </div>
+        <div class="form-group">
+         <label for="prd_promo_enddate">Promotion End Date:</label>
+          <textarea class="form-control" id="prd_promo_enddate" placeholder="Enter Promotion End Date" name="prd_promo_enddate"></textarea>
+        </div>
+         
+          <button class="btn btn-success">save</button>
+        </form> 
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-warning" data-dismiss="modal">cancel</button>
+      </div>  
+      </div>
+    </div>
+  </div>
+</template>
+
+
+
+<template name="products">
+    <div class="container js-container" >
+
+  {{#if currentUser}}
+  <button class="btn btn-success js-show-product-form">add product</button>  
+  {{else}}
+  <a style="color:blue"><b>Please Login First To Add Product</b></a>
+  {{/if}}
+   <h2>
+   {{#if filtering_products}}
+    Showing products by user {{getFilterUser}}. <a href="#" class="js-unset-product-filter">Show all products</a>
+   {{/if}}
+  </h2>
+	<div class="row">
+  {{#each products}}
+  <div class="col-xs-12 col-md-3" id="{{_id}}">
+  	<div class="thumbnail">
+
+  	 	<a href="/product/{{_id}}"><img class="js-product thumbnail-img"  src="{{prd_src1}}" 
+  		alt="{{prd_alt}}" /></a>
+  			
+  		<div class="caption">           
+            <!-- <h3>Rating: {{rating}}</h3> -->
+            <B>Promotion: </B><br> {{prd_promo_token}}
+
+        	<p>{{prd_alt}}</p>
+          <p>
+            Product/Service Added By: 
+            <!--<a href="#" class="js-set-product-filter">{{getUser createdBy}}</a>-->
+             <a href="#" class="js-set-product-filter">{{prd_company_name}}</a>
+          </p>
+          <p>
+            {{>starsRating mutable=true class="js-rate-product" data_id=_id rating=ratingh}}
+          </p>
+          {{#if getAdmin}}
+          <button class="js-del-product btn btn-warning">delete</button>
+          {{/if}}
+     	</div>
+     </div>
+    </div> <!-- / col -->
+  {{/each}}
+</div> <!-- / row -->
+</div><!-- / container -->
+  </template>
+
+<template name="customer_comments">
+
+<div class="modal fade" id="customer_comments">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">
+        </div>
+      </div>
+      <div class="modal-body">       
+        <form class="js-add-customer-comments">
+          <div class="form-group">
+            <label for="customer_buy">Have you bought this product:</label>
+            <input type="text" class="form-control" id="customer_buy" placeholder="Have you bought it [YES/NO]" name="customer_buy"/>
+        </div>
+        <div class="form-group">
+         <label for="customer_happy">Are you happy with this product:</label>
+          <textarea class="form-control" id="customer_happy" placeholder="Are you happy with this product?[YES/NO]" name="customer_happy"></textarea>
+        </div>
+        
+        <div class="form-group">
+         <label for="customer_wish">Do you wana buy this product:</label>
+          <textarea class="form-control" id="customer_wish" placeholder="Do you wana buy this product?[YES/NO]" name="customer_wish"></textarea>
+        </div>
+
+        <div class="form-group">
+         <label for="customer_alternative">Do you preffer any alternative product:</label>
+          <textarea class="form-control" id="customer_alternative" placeholder="Do you prefer any alternative product?[YES/NO]" name="customer_alternative"></textarea>
+        </div>
+
+        <div class="form-group">
+         <label for="customer_alternative_reason">Reason for alternative product selection:</label>
+          <textarea class="form-control" id="customer_alternative_reason" placeholder="Reason for alternative product selection" name="customer_alternative_reason"></textarea>
+        </div>
+
+        <div class="form-group">
+         <label for="customer_experience">Help others with writting your experience about this product:</label>
+          <textarea class="form-control" id="customer_experience" placeholder="your experience about this product" name="customer_experience"></textarea>
+        </div>
+
+        <div class="form-group">
+         <label for="customer_recommendations">Your recommendations:</label>
+          <textarea class="form-control" id="customer_recommendations" placeholder="Your recommendations" name="customer_recommendations"></textarea>
+        </div>
+
+          <button class="btn btn-success">save</button> 
+        </form> 
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-warning" data-dismiss="modal">cancel</button>
+      </div>  
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="commentList">
+  {{#each comments}}
+  <ul>
+    <li><h3><b>Commented By: {{customer_username}}</b></h3><br>
+      <p style="color:grey">Customer already bought this product: <b style="color:blue">{{customer_buy}}</b></p>
+      <p style="color:grey">Customer is Happy with this product: <b style="color:blue">{{customer_happy}}</b></p>
+      <p style="color:grey">Customer is Happy with this product: <b style="color:blue">{{customer_happy}}</b></p>
+      <p style="color:grey">Customer want to buy this product: <b style="color:blue">{{customer_wish}}</b></p>
+      <p style="color:grey">Customer prefere alternative product: <b style="color:blue">{{customer_alternative}}</b></p>
+      <p style="color:grey">Reason for atlernative product selection: <b style="color:blue">{{customer_alternative_reason}}</b></p>
+      <p style="color:grey">Customer's Experience of this product: <b style="color:blue">{{customer_experience}}</b></p>
+      <p style="color:grey">Customer's recommendations for this product: <b style="color:blue">{{customer_recommendations}}</b></p> 
+    </li>
+    <br><br>
+    <p>__________________________________________________________________________</p>
+    <br>
+  </ul>
+  {{/each}}
+</template>
+
+<!--
+<template name="exampleModal">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal example</h4>
+                </div>
+                    <img class="single-img" src="{{prd_src1}}" data-action="zoom"/><br>
+                <div class="modal-body">
+                    <img class="single-img" src="{{prd_src1}}" data-action="zoom"/><br>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</template> 
+
+-->
+
+
+
